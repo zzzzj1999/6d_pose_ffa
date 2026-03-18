@@ -1,0 +1,49 @@
+runtime:
+  seed: 42
+  device: cuda:0
+  batch_size: 16
+  num_workers: 4
+  pin_memory: true
+
+data:
+  pretrain_train_index: /data/fafa_prepared/rov6d_synth_pretrain_train.jsonl
+  pretrain_val_index: /data/fafa_prepared/rov6d_synth_pretrain_val.jsonl
+  real_style_index: /data/fafa_prepared/rov6d_real_style.jsonl
+  n_context: 4
+
+model:
+  feature_dim: 128
+  hidden_dim: 128
+  student_outer_iters: 4
+  teacher_outer_iters: 8
+  translation_scale: 0.02
+  geometric_consistency_px: 3.0
+
+fft:
+  enabled: true
+  delta0: 0.5
+  beta: 1.0
+
+loss:
+  pretrain_pose_weight: 1.0
+  pretrain_flow_weight: 1.0
+  gamma1: 0.1
+  gamma2: 0.1
+  gamma3: 10.0
+  gamma4: 10.0
+
+train:
+  epochs: 100
+  max_lr: 4.0e-4
+  weight_decay: 1.0e-4
+  pct_start: 0.1
+  anneal_strategy: cos
+  div_factor: 25.0
+  final_div_factor: 1000.0
+  grad_clip: 1.0
+  output_dir: /data/fafa_outputs/rov6d_pretrain
+  best_metric: ADD(-S)_0.1d
+  resume_from: null
+  pretrain_checkpoint: null
+  ema_momentum: 0.999
+  freeze_bn: false
