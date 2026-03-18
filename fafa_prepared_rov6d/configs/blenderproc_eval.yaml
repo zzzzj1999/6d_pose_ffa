@@ -1,0 +1,49 @@
+runtime:
+  seed: 42
+  device: cuda:0
+  batch_size: 16
+  num_workers: 4
+  pin_memory: true
+data:
+  real_style_index: /home/dongnan/zzj/6d_pose/fafa_repro-5/fafa_prepared_rov6d/indices/real_style.jsonl
+  n_context: 4
+  zero_background_depth: true
+  max_context_depth_m: null
+  eval_index: /home/dongnan/zzj/6d_pose/fafa_repro-5/fafa_prepared_rov6d/indices/real_eval.jsonl
+model:
+  feature_dim: 128
+  hidden_dim: 128
+  student_outer_iters: 1
+  teacher_outer_iters: 2
+  translation_scale: 0.02
+  geometric_consistency_px: 3.0
+  max_disp_feat: 32.0
+  mask_prior_flow: true
+  mask_pred_flow: true
+  masked_pose_pooling: true
+fft:
+  enabled: false
+  delta0: 0.5
+  beta: 1.0
+loss:
+  pretrain_pose_weight: 1.0
+  pretrain_flow_weight: 0.0001
+  gamma1: 0.1
+  gamma2: 0.1
+  gamma3: 10.0
+  gamma4: 10.0
+train:
+  epochs: 1
+  max_lr: 0.0001
+  weight_decay: 0.0001
+  pct_start: 0.1
+  anneal_strategy: cos
+  div_factor: 25.0
+  final_div_factor: 1000.0
+  grad_clip: 1.0
+  output_dir: /home/dongnan/zzj/6d_pose/fafa_repro-5/fafa_prepared_rov6d/outputs/eval
+  best_metric: 5cm
+  resume_from: null
+  pretrain_checkpoint: null
+  ema_momentum: 0.999
+  freeze_bn: true
